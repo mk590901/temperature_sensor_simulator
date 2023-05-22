@@ -1,10 +1,8 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../events/refresh_events.dart';
 import '../events/event.dart';
 import '../state_machines/basic_state_machine.dart';
 import '../state_machines/refreshing_state_machine.dart';
-//import "states/refreshing_state.dart";
-import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../states/text_refreshing_state.dart';
 
 class TextRefreshingBloc extends Bloc<Event, TextRefreshingState> {
