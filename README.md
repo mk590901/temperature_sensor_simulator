@@ -20,3 +20,5 @@ There are two ways to execute a measurement:
 
 ## Video
 
+https://github.com/mk590901/temperature_sensor_simulator/assets/125393245/57a0d61a-9b2a-4a5a-96f7-ac4cff5b1572
+
