@@ -154,6 +154,10 @@ class Controller implements IController, IAlertResponse {
     //@_action?.done('');  //  Test, need action to stop timer
   }
 
+  void clearListeners() {
+    _listeners.clear();
+  }
+
   double string2double(final String doubleText) {
     double result = 0;
     try {

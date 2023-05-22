@@ -169,10 +169,9 @@ Future<dynamic> tryExit(BuildContext context) async {
         ),
         TextButton(
           onPressed: () {
-            //ApplicationHolder.holder()!.shutdown();
+            Controller.controller()?.clearListeners();
             SystemChannels.platform.invokeMethod('SystemNavigator.pop');
-            //exit(0);
-          },
+           },
           style: buttonStyle,
           child: const Text('Yes'),
         ),

@@ -42,7 +42,6 @@ class SensorMetroPage extends StatelessWidget {
     CustomGridTile(2, 2, TextValueExtTile(width: 2 * 100, height: 2 * 100).add(TextUpdater())),
     CustomGridTile(2, 1, TextValueExtTile(width: 2 * 100, height: 1 * 100,).add(TextUpdater())),
     CustomGridTile(4, 1, TextErrorTile(width: 4 * 100,height: 1 * 100,).add(TextUpdater())),
-
   ];
 
   void refresh(BuildContext context) {
