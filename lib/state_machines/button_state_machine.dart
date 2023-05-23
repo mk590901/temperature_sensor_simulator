@@ -19,7 +19,6 @@ class ButtonStateMachine extends BasicStateMachine {
     states_ [state_(ButtonStates.play)] = State([ Trans(Reset(),  state_(ButtonStates.stop), OnNothing()),
                                                   Trans(Click(),  state_(ButtonStates.stop), OnStop())
                                                 ]);
-
   }
 
   @override

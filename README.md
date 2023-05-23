@@ -12,6 +12,92 @@ The application uses several state machines:
 - The **Task state machine** is implemented in the *TaskStateMachine* class and encapsulated in the *TemperatureSensor* class, which simulates the temperature measurement process.
 - **Alert state machine**. Allows you to classify measurements into several categories depending on the measured value.
 
+For some variety, I'll give examples of the description of state machines:
+## Refreshing state machine
+```
+@override
+void create() {
+states_ [state_(RefreshingStates.refreshing)]   = State([ Trans(Refresh(),  state_(RefreshingStates.refreshing),  OnNothing())]);
+}
+```
+## Toggle button state machine
+```
+  @override
+  void create() {
+    states_ [state_(ButtonStates.stop)] = State([ Trans(Reset(),  state_(ButtonStates.stop), OnNothing()),
+                                                  Trans(Click(),  state_(ButtonStates.play), OnPlay())
+                                                ]);
+    states_ [state_(ButtonStates.play)] = State([ Trans(Reset(),  state_(ButtonStates.stop), OnNothing()),
+                                                  Trans(Click(),  state_(ButtonStates.stop), OnStop())
+                                                ]);
+  }
+```
+## Task state machine
+```
+  @override
+  void create() {
+    states_ [state_(TaskStates.idle)]         = State([ Trans(Start(),  state_(TaskStates.measurement),  OnStart(this))]);
+    states_ [state_(TaskStates.measurement)]  = State([ Trans(Delay(),  state_(TaskStates.idle),  OnDelay(this)),
+                                                        Trans(Break(),  state_(TaskStates.idle),  OnBreak(this)),
+                                              ]);
+  }
+```
+## Alert state machine
+```
+  @override
+  void create() {
+    states_ [state_(AlertStates.idle)]         = State([Trans(Outrange(),         state_(AlertStates.out_of_range), OutOfRangeAlert(this)),
+                                                        Trans(Normal(),           state_(AlertStates.normal),       NormalAlert(this)),
+                                                        Trans(BelowCriticalLow(), state_(AlertStates.critical_low), BelowCriricalLowAlert(this)),
+                                                        Trans(AboveCriticalHigh(),state_(AlertStates.critical_high),AboveCriricalHighAlert(this)),
+                                                        Trans(BelowWarningLow(),  state_(AlertStates.warning_low),  BelowWarningLowAlert(this)),
+                                                        Trans(AboveWarningHigh(), state_(AlertStates.warning_high), AboveWarningHighAlert(this)),
+                                                  ]);
+    states_ [state_(AlertStates.out_of_range)] = State([Trans(Outrange(),         state_(AlertStates.out_of_range), OutOfRangeAlertDummy(this)),
+                                                        Trans(Normal(),           state_(AlertStates.normal),       NormalAlert(this)),
+                                                        Trans(BelowCriticalLow(), state_(AlertStates.critical_low), BelowCriricalLowAlert(this)),
+                                                        Trans(AboveCriticalHigh(),state_(AlertStates.critical_high),AboveCriricalHighAlert(this)),
+                                                        Trans(BelowWarningLow(),  state_(AlertStates.warning_low),  BelowWarningLowAlert(this)),
+                                                        Trans(AboveWarningHigh(), state_(AlertStates.warning_high), AboveWarningHighAlert(this)),
+                                                  ]);
+    states_ [state_(AlertStates.normal)] =       State([Trans(Outrange(),         state_(AlertStates.out_of_range), OutOfRangeAlert(this)),
+                                                        Trans(Normal(),           state_(AlertStates.normal),       NormalAlertDummy(this)),
+                                                        Trans(BelowCriticalLow(), state_(AlertStates.critical_low), BelowCriricalLowAlert(this)),
+                                                        Trans(AboveCriticalHigh(),state_(AlertStates.critical_high),AboveCriricalHighAlert(this)),
+                                                        Trans(BelowWarningLow(),  state_(AlertStates.warning_low),  BelowWarningLowAlert(this)),
+                                                        Trans(AboveWarningHigh(), state_(AlertStates.warning_high), AboveWarningHighAlert(this)),
+                                                  ]);
+    states_ [state_(AlertStates.critical_low)] = State([Trans(Outrange(),         state_(AlertStates.out_of_range), OutOfRangeAlert(this)),
+                                                        Trans(Normal(),           state_(AlertStates.normal),       NormalAlert(this)),
+                                                        Trans(BelowCriticalLow(), state_(AlertStates.critical_low), BelowCriticalLowAlertDummy(this)),
+                                                        Trans(AboveCriticalHigh(),state_(AlertStates.critical_high),AboveCriricalHighAlert(this)),
+                                                        Trans(BelowWarningLow(),  state_(AlertStates.warning_low),  BelowWarningLowAlert(this)),
+                                                        Trans(AboveWarningHigh(), state_(AlertStates.warning_high), AboveWarningHighAlert(this)),
+                                                  ]);
+    states_ [state_(AlertStates.critical_high)] =State([Trans(Outrange(),         state_(AlertStates.out_of_range), OutOfRangeAlert(this)),
+                                                        Trans(Normal(),           state_(AlertStates.normal),       NormalAlert(this)),
+                                                        Trans(BelowCriticalLow(), state_(AlertStates.critical_low), BelowCriricalLowAlert(this)),
+                                                        Trans(AboveCriticalHigh(),state_(AlertStates.critical_high),AboveCriticalHighAlertDummy(this)),
+                                                        Trans(BelowWarningLow(),  state_(AlertStates.warning_low),  BelowWarningLowAlert(this)),
+                                                        Trans(AboveWarningHigh(), state_(AlertStates.warning_high), AboveWarningHighAlert(this)),
+                                                 ]);
+    states_ [state_(AlertStates.warning_low)] =  State([Trans(Outrange(),         state_(AlertStates.out_of_range), OutOfRangeAlert(this)),
+                                                        Trans(Normal(),           state_(AlertStates.normal),       NormalAlert(this)),
+                                                        Trans(BelowCriticalLow(), state_(AlertStates.critical_low), BelowCriricalLowAlert(this)),
+                                                        Trans(AboveCriticalHigh(),state_(AlertStates.critical_high),AboveCriricalHighAlert(this)),
+                                                        Trans(BelowWarningLow(),  state_(AlertStates.warning_low),  BelowWarningLowDummyAlert(this)),
+                                                        Trans(AboveWarningHigh(), state_(AlertStates.warning_high), AboveWarningHighAlert(this)),
+                                                 ]);
+    states_ [state_(AlertStates.warning_high)] = State([Trans(Outrange(),         state_(AlertStates.out_of_range), OutOfRangeAlert(this)),
+                                                        Trans(Normal(),           state_(AlertStates.normal),       NormalAlert(this)),
+                                                        Trans(BelowCriticalLow(), state_(AlertStates.critical_low), BelowCriricalLowAlert(this)),
+                                                        Trans(AboveCriticalHigh(),state_(AlertStates.critical_high),AboveCriricalHighAlert(this)),
+                                                        Trans(BelowWarningLow(),  state_(AlertStates.warning_low),  BelowWarningLowAlert(this)),
+                                                        Trans(AboveWarningHigh(), state_(AlertStates.warning_high), AboveWarningHighDummyAlert(this)),
+                                                 ]);
+  }
+
+```
 All these classes can be easily found in the project. They are transparently enough to understand principles of they work.
 
 ## Brief app guide
