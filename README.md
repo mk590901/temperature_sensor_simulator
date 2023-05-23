@@ -9,6 +9,7 @@ The application uses several state machines:
 
 - Refreshing state machine. It's built into two classes, TextRefreshingBloc and IconRefreshingBloc, which allow update tiles.
 - Toggle button state machine. It is an integral part of the ButtonBloc class and allows you to control the states of the PLAY/PAUSE button.
+- The Task state machine is implemented in the TaskStateMachine class and encapsulated in the TemperatureSensor class, which simulates the temperature measurement process.
 - Alert state machine. Allows you to classify measurements into several categories depending on the measured value.
 
 All these classes can be easily found in the project. They are transparently enough to understand principles of they work.
